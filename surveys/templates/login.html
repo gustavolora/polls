@@ -1,0 +1,57 @@
+{% load static %}
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio de Sesion</title>
+    <link rel="stylesheet" href="{% static '/surveys/css/bootstrap.css' %}">
+</head>
+
+<body class="body">
+
+    {% block content %}
+    <!--  login view  -->
+    <div class="container text-center justify-content-">
+        <section class="vh-100">
+            <div class="container py-4 h-100">
+                <div class="row d-flex justify-content-center align-items-center h-100">
+                    <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                        <div class="card shadow-2-strong" id="login-body" style="border-radius: 1rem;">
+                            <div class="card-body p-5 text-center">
+                                <form action="" method="POST">
+                                    {%csrf_token%}
+                                    <h3 class="mb-5">Inicio de Sesion</h3>
+                                    <div class="form-outline mb-4 text-start">
+                                        <label class="form-label" for="">Email</label>
+                                        <input type="email" id="typeEmailX-2" name="email" class="form-control form-control-lg" />
+                                    </div>
+                                    <div class="form-outline mb-4 text-start">
+                                        <label class="form-label" for="">Contraseña</label>
+                                        <input type="password" id="typePasswordX-2" name="password"
+                                            class="form-control form-control-lg" />
+                                        <label class="form-label mt-1" for="">
+                                            <a id="pass-link" class="" href="">Olvidaste la contraseña?</a>
+                                        </label>
+                                    </div>
+                                    <div class="form-check text-start justify-content-start mb-4">
+                                        <input class="form-check-input " type="checkbox" value="" />
+                                        <label class="form-check-label text-start" for="form1Example3"> Recordar
+                                            contraseña</label>
+                                    </div>
+                                    <button class="btn btn-primary btn-lg btn-block" type="submit">Iniciar
+                                        sesion</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    {%endblock%}
+    <!--end login-->
+</body>
+
+</html>
