@@ -33,7 +33,7 @@ def surveys(request):
 
     #     # username = request.POST['user']
 
-@csrf_protect
+@login_required
 def signin(request):
     if request.method == 'GET':
         return render(request, 'login.html')
@@ -48,7 +48,7 @@ def signin(request):
             })
         else:
             login(request, user)
-            return redirect(request, 'index.html',{
+            return render(request, 'index.html',{
                 'name': request.user.username
             })
 
