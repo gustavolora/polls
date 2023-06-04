@@ -20,16 +20,17 @@
                     <div class="col-12 col-md-8 col-lg-6 col-xl-5">
                         <div class="card shadow-2-strong" id="login-body" style="border-radius: 1rem;">
                             <div class="card-body p-5 text-center">
-                                <form action="" method="POST">
+                                <form action="{% url 'signin'%}" method="post">
                                     {%csrf_token%}
                                     <h3 class="mb-5">Inicio de Sesion</h3>
+                                    <label class="form-label text-start" for="">{{error}}</label>
                                     <div class="form-outline mb-4 text-start">
                                         <label class="form-label" for="">Email</label>
-                                        <input type="email" id="typeEmailX-2" name="email" class="form-control form-control-lg" />
+                                        <input type="text" required id="typeEmailX-2" name="username" class="form-control form-control-lg" />
                                     </div>
                                     <div class="form-outline mb-4 text-start">
                                         <label class="form-label" for="">Contraseña</label>
-                                        <input type="password" id="typePasswordX-2" name="password"
+                                        <input type="password" required id="typePasswordX-2" name="password"
                                             class="form-control form-control-lg" />
                                         <label class="form-label mt-1" for="">
                                             <a id="pass-link" class="" href="">Olvidaste la contraseña?</a>
