@@ -1,0 +1,26 @@
+{% extends 'index.html'%}
+{%load static%}
+{%block content%}
+<div class="container mx-auto my-4 mt-5">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Nombre</th>
+                <th scope="col">Tiempo Promedio</th>
+                <th scope="col">Numero Encuestas</th>
+            </tr>
+        </thead>
+        <tbody>
+            {%for user in users %}
+            <tr>
+                <td>{{user.username}}</td>
+                <td>Otto</td>
+                <td>@mdo</td>
+            </tr>
+            {%endfor%}
+        </tbody>
+    </table>
+</div>
+
+
+{%endblock%}

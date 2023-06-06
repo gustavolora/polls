@@ -1,5 +1,5 @@
 {% load static %}
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
@@ -23,13 +23,23 @@
                                 <form action="{% url 'signin'%}" method="post">
                                     {%csrf_token%}
                                     <h3 class="mb-5">Inicio de Sesion</h3>
-                                    <label class="form-label text-start" for="">{{error}}</label>
+                                    {% if messages %}
+                                    {% for message in messages %}
+                                    <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
+                                        {{ message }}
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    {% endfor %}
+                                    {% endif %}
+                                    <label class="form-label text-start" for=""></label>
                                     <div class="form-outline mb-4 text-start">
                                         <label class="form-label" for="">Email</label>
-                                        <input type="text" required id="typeEmailX-2" name="username" class="form-control form-control-lg" />
+                                        <input type="text" required id="typeEmailX-2" name="username"
+                                            class="form-control form-control-lg" />
                                     </div>
                                     <div class="form-outline mb-4 text-start">
-                                        <label class="form-label" for="">Contraseña</label>
+                                        <label class="form-label" for="validationCustom03">Contraseña</label>
                                         <input type="password" required id="typePasswordX-2" name="password"
                                             class="form-control form-control-lg" />
                                         <label class="form-label mt-1" for="">
@@ -53,6 +63,7 @@
     </div>
     {%endblock%}
     <!--end login-->
+    <script src="{% static 'surveys/js/bootstrap.js' %}"></script>
 </body>
 
 </html>

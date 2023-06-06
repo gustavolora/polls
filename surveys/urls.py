@@ -6,9 +6,9 @@ from django.views.decorators.csrf import CsrfViewMiddleware
 
 
 urlpatterns = [
-
     path('', SurveyView.as_view(), name='index'),
     path('surveys/', views.surveys, name='surveys'),
-    path('logout/',views.signout, name='logout'),
-    path('signin/',csrf_exempt(views.signin), name='signin'),
+    path('surveys/list_users/', views.listpollsters, name='listpollsters'),
+    path('logout/', views.signout, name='logout'),
+    path('signin/', views.signin, name='signin'),
 ]
