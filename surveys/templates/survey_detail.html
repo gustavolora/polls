@@ -1,0 +1,198 @@
+{%extends 'index.html'%}
+{%load static%}
+{%block content%}
+<script src="{% static 'surveys/js/bootstrap.js' %}"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<div>
+
+  <div class="container">
+    <div class="card mt-5 " style="max-width: 500px; margin: 0 auto;">
+      <div class="row">
+        <h5 class="text-center mt-4 mb-4 fw-light">Seleccione comuna y barrio</h5>
+        <div class="col">
+          <div class="form-group m-2">
+
+            <select class="form-select" id="comunaSelect" name="comunaSelect-">
+              <option onchange="searchDistrict()" selected>Selecciona una comuna...</option>
+              {%for commune in communes%}
+              <option id="comunaSelect1" value="{{commune.id}}">{{commune}}</option>
+              {%endfor%}
+            </select>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group m-2">
+            <select class="form-select" id="barrioSelect" name="barrioSelect-">
+              <option selected>Selecciona un barrio...</option>
+              <!-- Opciones de barrio -->
+              <option id="barrioSelect2" value=""></option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card text-center mt-5 mb-5" style="max-width: 500px; margin: 0 auto;">
+
+      <div class="card-body">
+        <h5 class="card-title text-start fw-light bg-light ">DANIELA LE PREGUNTA, CUAL ES EL PRINCIPAL PROBLEMA QUE
+          TIENE SU BARRIO?</h5>
+        <div class="form-check text-start mt-3">
+          <input class="form-check-input " type="radio" name="pregunta" id="opcion1" value="Mal estado de las calles">
+          <label class=" text-startform-check-label" for="opcion1">
+            Mal estado de las calles
+          </label>
+        </div>
+        <div class="text-start form-check mt-3">
+          <input class="form-check-input " type="radio" name="pregunta" id="opcion2" value="Falta de agua">
+          <label class="form-check-label" for="opcion2">
+            Falta de agua
+          </label>
+        </div>
+        <div class="text-start form-check mt-3">
+          <input class="form-check-input " type="radio" name="pregunta" id="opcion3" value="Inseguridad">
+          <label class="form-check-label" for="opcion3">
+            Inseguridad
+          </label>
+        </div>
+        <div class="text-start form-check mt-3">
+          <input class="form-check-input " type="radio" name="pregunta" id="opcion4" value="Mucha basura">
+          <label class="form-check-label" for="opcion4">
+            Mucha basura
+          </label>
+        </div>
+        <div class="text-start form-check mt-3">
+          <input class="form-check-input " type="radio" name="pregunta" id="opcion5" value="Consumo de drogas">
+          <label class="form-check-label" for="opcion5">
+            Consumo de drogas
+          </label>
+        </div>
+        <div class="text-start form-check mt-3">
+          <input class="form-check-input " type="radio" name="pregunta" id="opcion6"
+            value="Falta de parques y areas verdes">
+          <label class="form-check-label" for="opcion6">
+            Falta de parques y areas verdes
+          </label>
+        </div>
+        <div class="text-start form-check mt-3">
+          <input class="form-check-input " type="radio" name="pregunta" id="opcion7" value="Desempleo">
+          <label class="form-check-label" for="opcion7">
+            Desempleo
+          </label>
+        </div>
+        <div class="text-start form-check mt-3">
+          <input class="form-check-input " type="radio" name="pregunta" id="opcion8" value="Falta de cultura ciudadana">
+          <label class="form-check-label" for="opcion8">
+            Falta de cultura ciudadana
+          </label>
+        </div>
+        <div class="text-start form-check mt-3">
+          <input class="form-check-input " type="radio" name="pregunta" id="opcion9" value="opcion9">
+          <label class="form-check-label" for="opcion9">
+            Todo
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!--pregunta card 2-->
+    <div class="card text-center mt-5 mb-5" style="max-width: 500px; margin: 0 auto;">
+      <div class="card-body">
+        <h5 class="card-title text-start fw-light bg-light ">DANIELA QUIERE SABER, SI USTED FUERA ALCALDE DE SINCELEJO
+          CUAL SERIA LA PRIMERA ACCION QUE HARIA?</h5>
+        <div class="form-check text-start mt-3">
+          <input class="form-check-input " type="radio" name="pregunta" id="opcion1" value="opcion1">
+          <label class=" text-startform-check-label" for="opcion1">
+            Pavimentar las calles de la ciudad
+          </label>
+        </div>
+        <div class="text-start form-check mt-3">
+          <input class="form-check-input " type="radio" name="pregunta" id="opcion2" value="opcion2">
+          <label class="form-check-label" for="opcion2">
+            Combatir la inseguridad
+          </label>
+        </div>
+        <div class="text-start form-check mt-3">
+          <input class="form-check-input " type="radio" name="pregunta" id="opcion3" value="opcion3">
+          <label class="form-check-label" for="opcion3">
+            Luchar contra la corrupción
+          </label>
+        </div>
+        <div class="text-start form-check mt-3">
+          <input class="form-check-input " type="radio" name="pregunta" id="opcion4" value="opcion4">
+          <label class="form-check-label" for="opcion4">
+            Mejorar el sistema de recolección de basura
+          </label>
+        </div>
+        <div class="text-start form-check mt-3">
+          <input class="form-check-input " type="radio" name="pregunta" id="opcion5" value="opcion5">
+          <label class="form-check-label" for="opcion5">
+            Transporte público con buses modernos.
+          </label>
+        </div>
+        <div class="text-start form-check mt-3">
+          <input class="form-check-input " type="radio" name="pregunta" id="opcion6" value="opcion6">
+          <label class="form-check-label" for="opcion6">
+            Proyectos para que los jóvenes tengan empleo
+          </label>
+        </div>
+        <div class="text-start form-check mt-3">
+          <input class="form-check-input " type="radio" name="pregunta" id="opcion7" value="opcion7">
+          <label class="form-check-label" for="opcion7">
+            Construir y mejorar los parques y las áreas verdes
+          </label>
+        </div>
+        <div class="text-start form-check mt-3">
+          <input class="form-check-input " type="radio" name="pregunta" id="opcion8" value="opcion8">
+          <label class="form-check-label" for="opcion8">
+            FALTA DE CULTURA CIUDADA
+          </label>
+        </div>
+        <div class="text-start form-check mt-3">
+          <input onclick="mostrarCampoTexto()" class="form-check-input " type="radio" name="pregunta" id="opcion12"
+            value="opcion9">
+          <label class="form-check-label" for="opcion9">
+            Otro
+          </label>
+        </div>
+        <div class="form-group mt-3 text-start" id="campoTexto" style="display:none;">
+          <label for="otroTexto">Escribe tu respuesta:</label>
+          <input type="text" class="form-control" name="otroTexto" id="otroTexto">
+        </div>
+      </div>
+
+    </div>
+    <button class="mb-5 btn bg-secondary btn-lg">Continuar</button>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function(){
+  $('#comunaSelect').change(function() {
+    var comunaId = $(this).val();
+    console.log(comunaId)
+    $.ajax({
+      url: "{% url 'district_list'%}",
+      method: 'GET',
+      data: { comuna_id: comunaId },
+      dataType: 'json'
+    })
+    .done(function(distritos) {
+      var distritoSelect = $('#barrioSelect');
+      distritoSelect.empty();
+      
+      $.each(distritos, function(index, distrito) {
+        var option = $('<option></option>').val(distrito.id).text(distrito.name);
+        distritoSelect.append(option);
+      });
+    })
+    .fail(function() {
+      console.error('Error en la solicitud');
+    });
+  });
+  });
+  
+</script>
+
+
+{%endblock%}

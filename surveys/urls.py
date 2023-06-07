@@ -1,14 +1,17 @@
 from django.urls import path
-from .views import SurveyView
+from .views import LoginView
 from . import views
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.csrf import CsrfViewMiddleware
 
 
 urlpatterns = [
-    path('', SurveyView.as_view(), name='index'),
+    path('', LoginView.as_view(), name='login'),
+    path('index/', views.index, name='index'),
     path('surveys/', views.surveys, name='surveys'),
+    path('surveys/survey_detail/', views.surveydetail, name='surveydetail'),
     path('surveys/list_users/', views.listpollsters, name='listpollsters'),
+    path('surveys/survey_detail/list_district/', views.getDistrict, name='district_list' ),
     path('logout/', views.signout, name='logout'),
     path('signin/', views.signin, name='signin'),
 ]

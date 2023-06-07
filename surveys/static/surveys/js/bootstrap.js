@@ -5,9 +5,19 @@
   */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('@popperjs/core')) :
-  typeof define === 'function' && define.amd ? define(['@popperjs/core'], factory) :
-  (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.bootstrap = factory(global.Popper));
-}(this, (function (Popper) { 'use strict';
+    typeof define === 'function' && define.amd ? define(['@popperjs/core'], factory) :
+      (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.bootstrap = factory(global.Popper));
+}(this, (function (Popper) {
+  'use strict';
+
+/*
+Funciones para traer o para cargar la latitud y longitud del navegador
+*/
+
+
+/*
+Fin de las funciones custom
+*/
 
   function _interopNamespace(e) {
     if (e && e.__esModule) return e;
@@ -285,7 +295,7 @@
     return findShadowRoot(element.parentNode);
   };
 
-  const noop = () => {};
+  const noop = () => { };
 
   const reflow = element => element.offsetHeight;
 
@@ -1250,7 +1260,8 @@
 
 
     _getConfig(config) {
-      config = { ...Default$9,
+      config = {
+        ...Default$9,
         ...Manipulator.getDataAttributes(this._element),
         ...(typeof config === 'object' ? config : {})
       };
@@ -1532,7 +1543,8 @@
       } = data;
 
       if (typeof config === 'object') {
-        _config = { ..._config,
+        _config = {
+          ..._config,
           ...config
         };
       }
@@ -1566,7 +1578,8 @@
         return;
       }
 
-      const config = { ...Manipulator.getDataAttributes(target),
+      const config = {
+        ...Manipulator.getDataAttributes(target),
         ...Manipulator.getDataAttributes(this)
       };
       const slideIndex = this.getAttribute('data-bs-slide-to');
@@ -1844,7 +1857,8 @@
 
 
     _getConfig(config) {
-      config = { ...Default$8,
+      config = {
+        ...Default$8,
         ...config
       };
       config.toggle = Boolean(config.toggle); // Coerce string values
@@ -1891,7 +1905,8 @@
 
     static collapseInterface(element, config) {
       let data = Collapse.getInstance(element);
-      const _config = { ...Default$8,
+      const _config = {
+        ...Default$8,
         ...Manipulator.getDataAttributes(element),
         ...(typeof config === 'object' && config ? config : {})
       };
@@ -2199,7 +2214,8 @@
     }
 
     _getConfig(config) {
-      config = { ...this.constructor.Default,
+      config = {
+        ...this.constructor.Default,
         ...Manipulator.getDataAttributes(this._element),
         ...config
       };
@@ -2281,7 +2297,8 @@
         }];
       }
 
-      return { ...defaultBsPopperConfig,
+      return {
+        ...defaultBsPopperConfig,
         ...(typeof this._config.popperConfig === 'function' ? this._config.popperConfig(defaultBsPopperConfig) : this._config.popperConfig)
       };
     }
@@ -2628,7 +2645,8 @@
     }
 
     _getConfig(config) {
-      config = { ...Default$6,
+      config = {
+        ...Default$6,
         ...(typeof config === 'object' ? config : {})
       }; // use getElement() with the default "body" to get a fresh Element on each instantiation
 
@@ -2854,7 +2872,8 @@
     }
 
     _getConfig(config) {
-      config = { ...Default$5,
+      config = {
+        ...Default$5,
         ...Manipulator.getDataAttributes(this._element),
         ...(typeof config === 'object' ? config : {})
       };
@@ -3267,7 +3286,8 @@
 
 
     _getConfig(config) {
-      config = { ...Default$4,
+      config = {
+        ...Default$4,
         ...Manipulator.getDataAttributes(this._element),
         ...(typeof config === 'object' ? config : {})
       };
@@ -3940,7 +3960,8 @@
           }
         }
       };
-      return { ...defaultBsPopperConfig,
+      return {
+        ...defaultBsPopperConfig,
         ...(typeof this._config.popperConfig === 'function' ? this._config.popperConfig(defaultBsPopperConfig) : this._config.popperConfig)
       };
     }
@@ -3976,7 +3997,8 @@
       EventHandler.on(this._element.closest(`.${CLASS_NAME_MODAL}`), 'hide.bs.modal', this._hideModalHandler);
 
       if (this._config.selector) {
-        this._config = { ...this._config,
+        this._config = {
+          ...this._config,
           trigger: 'manual',
           selector: ''
         };
@@ -4071,7 +4093,8 @@
           delete dataAttributes[dataAttr];
         }
       });
-      config = { ...this.constructor.Default,
+      config = {
+        ...this.constructor.Default,
         ...dataAttributes,
         ...(typeof config === 'object' && config ? config : {})
       };
@@ -4183,14 +4206,16 @@
   const EVENT_KEY$3 = `.${DATA_KEY$3}`;
   const CLASS_PREFIX = 'bs-popover';
   const BSCLS_PREFIX_REGEX = new RegExp(`(^|\\s)${CLASS_PREFIX}\\S+`, 'g');
-  const Default$2 = { ...Tooltip.Default,
+  const Default$2 = {
+    ...Tooltip.Default,
     placement: 'right',
     offset: [0, 8],
     trigger: 'click',
     content: '',
     template: '<div class="popover" role="tooltip">' + '<div class="popover-arrow"></div>' + '<h3 class="popover-header"></h3>' + '<div class="popover-body"></div>' + '</div>'
   };
-  const DefaultType$2 = { ...Tooltip.DefaultType,
+  const DefaultType$2 = {
+    ...Tooltip.DefaultType,
     content: '(string|element|function)'
   };
   const Event$1 = {
@@ -4422,7 +4447,8 @@
 
 
     _getConfig(config) {
-      config = { ...Default$1,
+      config = {
+        ...Default$1,
         ...Manipulator.getDataAttributes(this._element),
         ...(typeof config === 'object' && config ? config : {})
       };
@@ -4900,7 +4926,8 @@
 
 
     _getConfig(config) {
-      config = { ...Default,
+      config = {
+        ...Default,
         ...Manipulator.getDataAttributes(this._element),
         ...(typeof config === 'object' && config ? config : {})
       };

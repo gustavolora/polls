@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inicio</title>
     <link rel="stylesheet" href="{% static 'surveys/css/bootstrap.css'%}">
+    <script src="{% static 'surveys/js/bootstrap.js' %}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
     
 </head>
 <body>
@@ -28,12 +31,10 @@
                 </li>
                 {%else%}
                 <li class="nav-item ">
-                    <a class="nav-link" href="">Encuestas</a>
+                    <a class="nav-link" href="{% url 'surveys'%}">Encuestas</a>
                 </li>
                 {% endif %}
-                <li class="nav-item ">
-                    <a class="nav-link" href="#">Datos</a>
-                </li>
+                
             </ul>
             <a id="nav-logout" class="navbar-text" style="text-decoration: none; color:#0B5ED7; "
                 href="{% url 'logout'%}">Cerrar Sesion</a>
@@ -41,10 +42,12 @@
     </div>
 </nav>
 <!--end navbar-->
-{%block content%}
+<div class="container-fluid text-center">
+    {%block content%}
 
-{%endblock%}
-<script src="{% static 'surveys/js/bootstrap.js' %}"></script>
+    {%endblock%}
+</div>
+
 </body>
 </html>
 
