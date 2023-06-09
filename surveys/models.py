@@ -28,7 +28,7 @@ class Surveys(models.Model):
 class Respondent(models.Model):
     name = models.CharField( max_length=60)
     address = models.CharField(max_length=60)
-    phone = models.CharField(max_length=12)
+    phone = models.CharField(max_length=60)
     recomendations = models.TextField(null=True)
 
 

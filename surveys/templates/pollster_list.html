@@ -12,19 +12,23 @@
             </tr>
         </thead>
         <tbody>
-            {%for user in users%}
+            {%for user in users_data%}
             <tr>
                 <td>
                     <div class="d-flex gap-3 align-items-center">
                         <div class="ms-3 p-2">
-                            <p class="fw-ligth mb-1">{{user}}</p>
+                            <p class="fw-ligth mb-1">{{user.username}}</p>
                         </div>
                     </div>
                 </td>
                 <td>
                     <div class="d-flex align-items-center">
                         <div class="ms-3 p-2">
-                            <p class="fw-ligth mb-1">Alex Ray</p>
+                            {% if user.average_duration%}
+                            <p class="fw-ligth mb-1">{{user.average_duration|floatformat:2}} Min</p>
+                            {%else%}
+                            <p class="fw-ligth mb-1">0</p>
+                            {%endif%}
                         </div>
                     </div>
                 </td>
@@ -32,7 +36,11 @@
                 <td>
                     <div class="d-flex text-end align-items-center">
                         <div class="ms-3 p-2">
-                            <p class="fw-ligth mb-1">Alex Ray</p>
+                            {% if user.survey_count %}
+                            <p class="fw-ligth mb-1">{{user.survey_count}}</p>
+                            {%else%}
+                            <p class="fw-ligth mb-1">0</p>
+                            {%endif%}
                         </div>
                     </div>
                 </td>

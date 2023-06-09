@@ -6,12 +6,12 @@
     <div class="row pb-5">
       {%for survey in surveys_data%}
         <div class="col-lg-6">
-            <div class="card">
-                <div class="text-start card-header">
-                 <h5 class="h5 fw-light">{{survey.survey.name}}</h5> 
-                </div>
+            <div class="card mb-2">
+                
+                <h5 class="h5 fw-light card-header text-start">{{survey.survey.name}}</h5> 
+                
                 <div class="card-body text-start">
-                    <h5 class="card-title mt-5">Numero de preguntas: {{survey.numero_preguntas}}</h5>
+                    <h5 class="card-title mt-3 mb-3">Numero de preguntas: {{survey.numero_preguntas}}</h5>
                     <a href="{% url 'surveydetail' survey_id=survey.survey.id %}" id="submit-survey" class="btn mt-2 btn-primary ml-auto">Empezar encuesta</a>
                 </div>
             </div>

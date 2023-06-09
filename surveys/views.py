@@ -1,28 +1,39 @@
-from .models import Respondent, SurveyRealized, Answer, AnswerOptions, Questions
+from .models import Respondent, SurveyRealized, Answer, AnswerOptions, Questions, Location
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView
-from django.http import HttpRequest, HttpResponse
 from django.contrib.auth import login, logout, authenticate
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.models import User
 from .models import Commune, Surveys, District, Questions
 from django.contrib import messages
 from django.http import JsonResponse
-from django.utils import timezone
-from datetime import datetime, timedelta
+from django.views.decorators.cache import never_cache
+from django.views.decorators.csrf import csrf_protect
+from django.db.models import Count, Avg
 
 
 class LoginView(TemplateView):
     template_name = 'login.html'
 
+def isAdmin(user):
+    return user.is_superuser
 
-
+@never_cache
 @login_required
 def index(request):
     return render(request, 'index.html',
                   {'user': request.user})
 
+@never_cache
+@user_passes_test(isAdmin,login_url='index')
+@login_required
+def adminPage(request):
+    return render(request, 'admin.html')
 
+
+
+@never_cache
 @login_required
 def surveys(request):
     surveys = Surveys.objects.all()
@@ -36,10 +47,13 @@ def surveys(request):
         return render(request, 'surveys.html', {'error': 'No te han asignado encuestas'})
     else:
         return render(request, 'surveys.html', {'surveys_data': survey_data})
-
+    
+@never_cache
+@login_required
 def video(request):
     return render(request, 'video.html')
 
+@never_cache
 @login_required
 def surveydetail(request,survey_id):
     communes = Commune.objects.filter()
@@ -53,6 +67,9 @@ def surveydetail(request,survey_id):
     }
     return render(request, 'survey_detail.html', context)
 
+@login_required
+def setVideo(request):
+    return render(request, 'video.html')
 
 @login_required
 def getDistrict(request):
@@ -61,7 +78,8 @@ def getDistrict(request):
         commune_id=comuna_id).values('id', 'name')
     return JsonResponse(list(distritos), safe=False)
 
-
+@csrf_protect
+@login_required
 def saveAnswers(request):
     if request.method == 'POST':
         nombre = request.POST.get('name')
@@ -72,6 +90,7 @@ def saveAnswers(request):
         survey_id = request.POST.get('surveys_id')
         duration = request.POST.get('duration')
         print(request.POST)
+
         survey = Surveys.objects.get(id=survey_id)
         respondent = Respondent(name=nombre, address=direccion, phone=telefono)
         respondent.save()
@@ -83,6 +102,7 @@ def saveAnswers(request):
                                         duration=duration
                                         )
         survey_realized.save()
+        location = Location()
 
         for pregunta_id, respuesta_id in request.POST.items():
             if pregunta_id.isdigit() and respuesta_id.isdigit():
@@ -91,14 +111,17 @@ def saveAnswers(request):
                 answer = Answer(surveyrealized=survey_realized,
                                 answeroptions=respuesta, questions=pregunta)
                 answer.save()
-
-        return render(request, 'exito.html')
+        context = {
+            'survey_id':survey_id
+        }
+        return render(request, 'video.html', context)
 
     return redirect('index')
 
-
+@csrf_protect
 def signin(request):
     if request.method == 'GET':
+        print('entro aqui')
         return render(request, 'login.html')
     else:
         username = request.POST['username']
@@ -109,17 +132,25 @@ def signin(request):
             messages.error(request, 'Usuario o contraseña incorrectos')
             return render(request, 'login.html')
         else:
-            login(request, user)
-            return redirect('index')
+            if user.is_superuser:
+                login(request, user)
+                return redirect('adminpage')
+            else:
+                login(request, user)
+                return redirect('index')
 
-
+@never_cache
+@staff_member_required
 @login_required
 def listpollsters(request):
-    users = User.objects.all()
+    users_data = User.objects.exclude(username='admin').annotate(survey_count=Count('surveyrealized'),average_duration=Avg('surveyrealized__duration')/60).order_by('-survey_count').values('username', 'survey_count', 'average_duration')
+    print(users_data)
+    context= {
+        'users_data':users_data
+    }
+    return render(request, 'pollster_list.html', context)
 
-    return render(request, 'pollster_list.html', {'users': users})
-
-
+@never_cache
 @login_required
 def signout(request):
     logout(request)

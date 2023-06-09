@@ -57,6 +57,18 @@ body {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 }
 
+.background-img {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  opacity: 0.1; /* Ajusta la opacidad de la imagen de fondo */
+  background-size: cover; /* La imagen se ajustará para cubrir todo el contenedor */
+  background-position: center; /* La imagen se posicionará en el centro del contenedor */
+}
+
 #login-body {
   -webkit-box-shadow: 0px 0px 45px -29px rgba(0,0,0,0.75);
   -moz-box-shadow: 0px 0px 45px -29px rgba(0,0,0,0.75);

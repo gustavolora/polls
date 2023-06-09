@@ -14,6 +14,17 @@
     <input type="hidden" name="duration" id="duration" value="">
     <input type="hidden" name="latitude" id="latitude" value="">
     <input type="hidden" name="longitude" id="longitude" value="">
+    <script>
+      document.getElementById('survey-form').addEventListener('submit', function(event) {
+        var comunaSelect = document.getElementById('comunaSelect');
+        var barrioSelect = document.getElementById('barrioSelect');
+      
+        if (comunaSelect.value === '' || barrioSelect.value === '') {
+          event.preventDefault(); // Evita el envío del formulario
+          alert('Por favor, seleccione una comuna y un barrio.');
+        }
+      });
+    </script>
 
     <div class="card mt-5" style="max-width: 500px; margin: 0 auto;">
       <div class="row mb-3">
@@ -50,18 +61,18 @@
         <div class="col">
           <div class="form-group m-2">
 
-            <select class="form-select" id="comunaSelect" name="comunaSelect">
-              <option onchange="searchDistrict()" selected>Selecciona una comuna...</option>
+            <select class="form-select" id="comunaSelect" name="comunaSelect" required>
+              <option value="" selected onchange="searchDistrict()">Selecciona una comuna...</option>
               {%for commune in communes%}
-              <option id="comunaSelect1" value="{{commune.id}}">{{commune}}</option>
+              <option  id="comunaSelect1" value="{{commune.id}}">{{commune}}</option>
               {%endfor%}
             </select>
           </div>
         </div>
         <div class="col">
           <div class="form-group m-2">
-            <select class="form-select" id="barrioSelect" name="barrioSelect">
-              <option selected>Selecciona un barrio...</option>
+            <select aria-required="true" class="form-select" id="barrioSelect" name="barrioSelect" required>
+              <option value="" selected >Selecciona un barrio...</option>
               <!-- Opciones de barrio -->
             </select>
           </div>
@@ -78,7 +89,7 @@
         <div class="form-check text-start mt-3">
           <input class="form-check-input" required type="radio" name="pregunta{{ forloop.parentloop.counter }}"
             id="opcion1" value="{{question.id}}">
-          <label class=" text-startform-check-label" for="opcion1">
+          <label class=" text-startform-check-label" for="opcion{{option.id}}">
             {{option.options}}
           </label>
         </div>
@@ -86,11 +97,12 @@
       </div>
     </div>
     {%endfor%}
-    <button id="submit-survey" type="submit" class="mb-5 btn bg-secondary btn-lg">Continuar</button>
+    <button id="submit-survey" style="color:#ffffff;" type="submit" class="mb-5 btn bg-secondary btn-lg">Continuar</button>
 
   </form>
 
   <script>
+    
     $(document).ready(function () {
       // inicio funcion geolocalizacion
       function getCurrentLocation() {
@@ -101,9 +113,13 @@
               var longitude = position.coords.longitude;
               currentLocation = {
                 'latitude': latitude,
-                'longitude': longitude
+                'longitude': longitude,
                 
               };
+              document.getElementById('latitude').value = latitude;
+              document.getElementById('longitude').value = longitude;
+              console.log(latitude);
+              console.log(longitude);
             },
             function (error) {
               console.log('Error al obtener la ubicación: ' + error.message);
