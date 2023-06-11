@@ -2,7 +2,7 @@
 {%load static%}
 {%block content%}
 <script src="{% static 'surveys/js/bootstrap.js' %}"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="{% static 'surveys/js/jquery.min.js'%}"></script>
 
 
 
@@ -12,15 +12,15 @@
     {% csrf_token%}
     <input type="hidden" name="surveys_id" id="surveys_id" value="{{ survey_id }}">
     <input type="hidden" name="duration" id="duration" value="">
-    <input type="hidden" name="latitude" id="latitude" value="">
-    <input type="hidden" name="longitude" id="longitude" value="">
+    <input type="hidden" name="latitude" id="latitude" >
+    <input type="hidden" name="longitude" id="longitude" >
     <script>
       document.getElementById('survey-form').addEventListener('submit', function(event) {
         var comunaSelect = document.getElementById('comunaSelect');
         var barrioSelect = document.getElementById('barrioSelect');
       
         if (comunaSelect.value === '' || barrioSelect.value === '') {
-          event.preventDefault(); // Evita el envío del formulario
+          event.preventDefault();
           alert('Por favor, seleccione una comuna y un barrio.');
         }
       });
@@ -87,8 +87,8 @@
         <h5 class="card-title text-start fw-light bg-light ">{{question.question}}</h5>
         {%for option in question.answeroptions_set.all%}
         <div class="form-check text-start mt-3">
-          <input class="form-check-input" required type="radio" name="pregunta{{ forloop.parentloop.counter }}"
-            id="opcion1" value="{{question.id}}">
+          <input class="form-check-input" required type="radio" name="pregunta{{question.id}}"
+            id="opcion1" value="{{option.id}}">
           <label class=" text-startform-check-label" for="opcion{{option.id}}">
             {{option.options}}
           </label>
@@ -97,6 +97,14 @@
       </div>
     </div>
     {%endfor%}
+    <div class="card text-center mt-5 mb-5" style="max-width: 500px; margin: 0 auto;">
+      <div class="card-body">
+        <h5 class="card-title text-start fw-light bg-light ">Que recomendación le daría usted a Daniela para sacar adelante a Sincelejo?</h5>
+        <div class="form-check text-center p-0 ms-0 mt-3">
+            <textarea name="recomentation" id="recomendation" class="form-control" aria-label="With textarea"></textarea>
+        </div>
+      </div>
+    </div>
     <button id="submit-survey" style="color:#ffffff;" type="submit" class="mb-5 btn bg-secondary btn-lg">Continuar</button>
 
   </form>

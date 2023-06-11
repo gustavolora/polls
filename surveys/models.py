@@ -47,8 +47,8 @@ class SurveyRealized(models.Model):
 
 class Location(models.Model):
     surveyrealized = models.ForeignKey(SurveyRealized, null=False, on_delete=models.CASCADE)
-    latitud = models.DecimalField(max_digits=20, decimal_places=8)
-    longitud = models.DecimalField(max_digits=20, decimal_places=8)
+    latitud = models.DecimalField(max_digits=20, decimal_places=13, null=True,default=None)
+    longitud = models.DecimalField(max_digits=20, decimal_places=13,null=True, default=None)
 
     def __str__(self) -> str:
         return f"user: {self.user.username}"

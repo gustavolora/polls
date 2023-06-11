@@ -1,14 +1,14 @@
 from django.urls import path
-from .views import LoginView
 from . import views
-from django.views.decorators.csrf import csrf_exempt
-from django.views.decorators.csrf import CsrfViewMiddleware
-
 
 urlpatterns = [
-    path('', LoginView.as_view(), name='login'),
+    path('', views.loginview, name='login'),
     path('index/', views.index, name='index'),
+    # admin views
     path('adminpage/',views.adminPage,name='adminpage'),
+    path('adminpage/surveys', views.adminsurveys, name='adminsurveys'),
+    path('adminpage/surveys/detail/<int:survey_id>/', views.adminsurveydetail, name='adminsurveydetail'),
+    # user views
     path('surveys/', views.surveys, name='surveys'),
     path('surveys/survey_detail/<int:survey_id>/', views.surveydetail, name='surveydetail'),
     path('adminpage/list_users/', views.listpollsters, name='listpollsters'),

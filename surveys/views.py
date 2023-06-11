@@ -1,5 +1,5 @@
 from .models import Respondent, SurveyRealized, Answer, AnswerOptions, Questions, Location
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import TemplateView
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required, user_passes_test
@@ -9,12 +9,14 @@ from .models import Commune, Surveys, District, Questions
 from django.contrib import messages
 from django.http import JsonResponse
 from django.views.decorators.cache import never_cache
-from django.views.decorators.csrf import csrf_protect
+from django.views.decorators.csrf import csrf_protect, csrf_exempt
 from django.db.models import Count, Avg
 
 
-class LoginView(TemplateView):
-    template_name = 'login.html'
+
+
+def loginview(request):
+    return render(request, 'login.html')
 
 def isAdmin(user):
     return user.is_superuser
@@ -23,15 +25,62 @@ def isAdmin(user):
 @login_required
 def index(request):
     return render(request, 'index.html',
-                  {'user': request.user})
+                {'user': request.user})
 
+@csrf_exempt
 @never_cache
 @user_passes_test(isAdmin,login_url='index')
 @login_required
 def adminPage(request):
     return render(request, 'admin.html')
 
+    
 
+@never_cache
+@user_passes_test(isAdmin,login_url='index')
+@login_required
+def adminsurveydetail(request, survey_id):
+    survey_realized = get_object_or_404(Surveys, id=survey_id)
+    questions = Questions.objects.filter(survey=survey_realized)
+    data = []
+
+    for question in questions:
+        response_counts_by_option = []
+        total_count = 0
+
+        answer_options = AnswerOptions.objects.filter(question=question)
+        for option in answer_options:
+            count = Answer.objects.filter(questions=question, answeroptions=option).count()
+            response_counts_by_option.append({'option': option, 'count': count})
+            total_count += count
+
+        data.append({'question': question, 'response_counts_by_option': response_counts_by_option, 'total_count': total_count})
+
+    for item in data:
+        for option in item['response_counts_by_option']:
+            if item['total_count'] > 0:
+                option['percentage'] = option['count'] / item['total_count'] * 100
+            else:
+                option['percentage'] = 0
+
+
+    return render(request, 'survey_result.html', {'data': data})
+
+
+@user_passes_test(isAdmin,login_url='index')
+@login_required
+def adminsurveys(request):
+    surveys = Surveys.objects.all()
+    survey_data = []
+    for survey in surveys:
+        numero_preguntas = Questions.objects.filter(survey=survey).count()
+        survey_data.append(
+            {'survey': survey, 'numero_preguntas': numero_preguntas})
+
+    if surveys is None:
+        return render(request, 'admin_surveys.html', {'error': 'No te han asignado encuestas'})
+    else:
+        return render(request, 'admin_surveys.html', {'surveys_data': survey_data})
 
 @never_cache
 @login_required
@@ -55,9 +104,9 @@ def video(request):
 
 @never_cache
 @login_required
-def surveydetail(request,survey_id):
+def surveydetail(request, survey_id):
     communes = Commune.objects.filter()
-    survey = Surveys.objects.get(id=survey_id)
+    survey = get_object_or_404(Surveys, id=survey_id)
     questions = Questions.objects.filter(survey=survey).prefetch_related('answeroptions_set')
 
     context = {
@@ -67,6 +116,7 @@ def surveydetail(request,survey_id):
     }
     return render(request, 'survey_detail.html', context)
 
+@csrf_exempt
 @login_required
 def setVideo(request):
     return render(request, 'video.html')
@@ -74,8 +124,9 @@ def setVideo(request):
 @login_required
 def getDistrict(request):
     comuna_id = request.GET.get('comuna_id')
-    distritos = distritos = District.objects.filter(
+    distritos = District.objects.filter(
         commune_id=comuna_id).values('id', 'name')
+    
     return JsonResponse(list(distritos), safe=False)
 
 @csrf_protect
@@ -85,14 +136,16 @@ def saveAnswers(request):
         nombre = request.POST.get('name')
         telefono = request.POST.get('phone')
         direccion = request.POST.get('direccion')
+        recomendation = request.POST.get('recomentation')
         commune_id = request.POST.get('comunaSelect')
         district_id = request.POST.get('barrioSelect')
         survey_id = request.POST.get('surveys_id')
         duration = request.POST.get('duration')
+        latitude = request.POST.get('latitude')
+        longitude = request.POST.get('longitude')
         print(request.POST)
-
         survey = Surveys.objects.get(id=survey_id)
-        respondent = Respondent(name=nombre, address=direccion, phone=telefono)
+        respondent = Respondent(name=nombre, address=direccion, phone=telefono, recomendations=recomendation)
         respondent.save()
         survey_realized = SurveyRealized(user=request.user, 
                                         survey=survey,
@@ -102,15 +155,25 @@ def saveAnswers(request):
                                         duration=duration
                                         )
         survey_realized.save()
-        location = Location()
-
-        for pregunta_id, respuesta_id in request.POST.items():
-            if pregunta_id.isdigit() and respuesta_id.isdigit():
-                pregunta = Questions.objects.get(id=int(pregunta_id))
-                respuesta = AnswerOptions.objects.get(id=int(respuesta_id))
-                answer = Answer(surveyrealized=survey_realized,
-                                answeroptions=respuesta, questions=pregunta)
-                answer.save()
+        if latitude != '' and longitude != '':
+            location = Location(surveyrealized=survey_realized, latitud=latitude, longitud=longitude)
+            location.save()
+        
+        for key, value in request.POST.items():
+            if key.startswith('pregunta'):
+                pregunta_id = key.replace('pregunta', '')
+                respuesta_id = value
+                try:
+                    pregunta = Questions.objects.get(id=int(pregunta_id))
+                    print('pregunta:',pregunta_id)
+                    respuesta = AnswerOptions.objects.get(id=int(respuesta_id))
+                    print('respuesta encontrada exitosamente')
+                    answer = Answer(surveyrealized=survey_realized,
+                                    answeroptions=respuesta, questions=pregunta)
+                    print('respuesta guardada exitosamente')
+                    answer.save()
+                except (Questions.DoesNotExist, AnswerOptions.DoesNotExist):
+                    print('Error: Pregunta o respuesta no encontrada en la base de datos')
         context = {
             'survey_id':survey_id
         }
@@ -118,12 +181,14 @@ def saveAnswers(request):
 
     return redirect('index')
 
-@csrf_protect
+@never_cache
 def signin(request):
     if request.method == 'GET':
+        logout(request)
         print('entro aqui')
         return render(request, 'login.html')
     else:
+        logout(request)
         username = request.POST['username']
         converted_username = username.lower()
         user = authenticate(
@@ -144,12 +209,12 @@ def signin(request):
 @login_required
 def listpollsters(request):
     users_data = User.objects.exclude(username='admin').annotate(survey_count=Count('surveyrealized'),average_duration=Avg('surveyrealized__duration')/60).order_by('-survey_count').values('username', 'survey_count', 'average_duration')
-    print(users_data)
     context= {
         'users_data':users_data
     }
     return render(request, 'pollster_list.html', context)
 
+@csrf_exempt
 @never_cache
 @login_required
 def signout(request):

@@ -7,8 +7,7 @@
     <title>Inicio</title>
     <link rel="stylesheet" href="{% static 'surveys/css/bootstrap.css'%}">
     <script src="{% static 'surveys/js/bootstrap.js' %}"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
+    <script src="{% static 'surveys/js/jquery.min.js' %}"></script>
     
 </head>
 <body>
@@ -27,7 +26,7 @@
                     <a class="nav-link" href="{% url 'listpollsters'%}">Encuestadores</a>
                 </li>
                 <li class="nav-item ">
-                    <a class="nav-link" href="">Encuestas</a>
+                    <a class="nav-link" href="{% url 'adminsurveys'%}">Administrador encuestas</a>
                 </li>
                 {%else%}
                 <li class="nav-item ">
