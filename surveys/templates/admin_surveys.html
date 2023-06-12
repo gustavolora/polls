@@ -1,0 +1,20 @@
+{% extends 'index.html'%}
+
+{%block content %}
+<div class="container mt-5">
+    <div class="row pb-5">
+      {%for survey in surveys_data%}
+        <div class="col-lg-6">
+            <div class="card mb-2">
+                
+                <h5 class="h5 fw-light card-header text-start">{{survey.survey.name}}</h5> 
+                
+                <div class="card-body text-start">
+                    <a href="{% url 'adminsurveydetail' survey_id=survey.survey.id %}" id="submit-survey" class="btn mt-2 btn-primary ml-auto">Mostrar informacion</a>
+                </div>
+            </div>
+        </div>
+      {%endfor%}
+    </div>
+</div>
+{%endblock%}

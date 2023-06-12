@@ -1,0 +1,44 @@
+{%extends 'index.html'%}
+{%load static%}
+
+{%block content%}
+<div class="container mt-5">
+    <div class="row pb-5">
+      {%for survey in surveys_data%}
+        <div class="col-lg-6">
+            <div class="card mb-2">
+                
+                <h5 class="h5 fw-light card-header text-start">{{survey.survey.name}}</h5> 
+                
+                <div class="card-body text-start">
+                    <h5 class="card-title mt-3 mb-3">Numero de preguntas: {{survey.numero_preguntas}}</h5>
+                    <a href="{% url 'surveydetail' survey_id=survey.survey.id %}" id="submit-survey" class="btn mt-2 btn-primary ml-auto">Empezar encuesta</a>
+                </div>
+            </div>
+        </div>
+      {%endfor%}
+    </div>
+</div>
+                    
+                    
+<script>
+    function getGeolocation() {
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(function(position) {
+            var latitud = position.coords.latitude;
+            var longitud = position.coords.longitude;
+            console.log("Latitud:", latitud);
+            console.log("Longitud:", longitud);
+          });
+        } else {
+          console.log("La geolocalización no es soportada por este navegador.");
+        }
+      }
+      
+      // Asignar la función al evento clic del botón
+      document.getElementById("submit-survey").addEventListener("click", getGeolocation);
+      
+
+</script>
+
+{%endblock%}

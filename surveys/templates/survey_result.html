@@ -1,0 +1,45 @@
+{% extends 'index.html'%}
+{%load static%}
+{%block content %}
+
+<div class="container col-lg-8 col-md-10 col-sm-12 mt-4">
+    <div class="card text-center mt-5 mb-5 d-flex justify-content-between" style="max-width: 500px; margin: 0 auto;">
+        <div class="p-2 d-flex justify-content-between" style="width: 100%;">
+            <h5 class="h5 m-3 text-start d-inline">Resultados: {{total_count}}</h5>
+            <a href="{% url 'report' %}">
+                <img class="justify-end text-end" style="width:30px; height:30px" src="{% static 'surveys/media/img/excel32.png'%}" alt="">
+            </a>
+        </div>
+    </div>
+
+    {% for item in data %}
+    <div class="card text-center mt-5 mb-5" style="max-width: 500px; margin: 0 auto;">
+        <div class="card-body">
+            <h5 class="card-title text-start fw-light bg-light mb-3 ">{{ item.question.name }}</h5>
+            <div class="container text-start">
+                <h5 class="h5">{{ item.question.question }}</h5>
+                <ul class="list-group">
+                    {% for option in item.response_counts_by_option %}
+                    <li class="list-group-item">
+                        <div class="progress" style="height:20px">
+
+                            <div class="progress-bar" role="progressbar" style="width: {{ option.percentage }}%;"
+                                aria-valuenow="{{ option.count }}" aria-valuemin="0"
+                                aria-valuemax="{{ item.total_count }}">{{ option.percentage|floatformat:"0" }}%</div>
+
+                        </div>
+                        {{ option.option.options }}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+
+
+</div>
+</div>
+
+{%endblock%}

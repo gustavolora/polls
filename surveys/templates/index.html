@@ -1,0 +1,56 @@
+{% load static%}
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio</title>
+    <link rel="stylesheet" href="{% static 'surveys/css/bootstrap.css'%}">
+    <script src="{% static 'surveys/js/bootstrap.js' %}"></script>
+    <script src="{% static 'surveys/js/jquery.min.js' %}"></script>
+    
+</head>
+<body>
+    <!--start navbar-->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand">Hola, {{user.username}}</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText"
+            aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarText">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                {% if user.is_staff%}
+                <li class="nav-item ">
+                    <a class="nav-link" href="{% url 'listpollsters'%}">Encuestadores</a>
+                </li>
+                <li class="nav-item ">
+                    <a class="nav-link" href="{% url 'adminsurveys'%}">Administrador encuestas</a>
+                </li>
+                {%else%}
+                <li class="nav-item ">
+                    <a class="nav-link" href="{% url 'surveys'%}">Encuestas</a>
+                </li>
+                {% endif %}
+                
+            </ul>
+            <a id="nav-logout" class="navbar-text" style="text-decoration: none; color:#0B5ED7; "
+                href="{% url 'logout'%}">Cerrar Sesion</a>
+        </div>
+    </div>
+</nav>
+<!--end navbar-->
+<div class="container-fluid text-center">
+
+    <div class="background-img"  style=" background-image: url('{% static 'surveys/media/img/bgimage.jpg' %}') "></div>
+    
+    {%block content%}
+
+    {%endblock%}
+</div>
+
+</body>
+</html>
+
+
