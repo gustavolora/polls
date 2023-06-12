@@ -1,10 +1,12 @@
 from django.urls import path
 from . import views
 
+
 urlpatterns = [
     path('', views.loginview, name='login'),
     path('index/', views.index, name='index'),
     # admin views
+    path('adminpage/exportdata/',views.excelreport, name='report'),
     path('adminpage/',views.adminPage,name='adminpage'),
     path('adminpage/surveys', views.adminsurveys, name='adminsurveys'),
     path('adminpage/surveys/detail/<int:survey_id>/', views.adminsurveydetail, name='adminsurveydetail'),

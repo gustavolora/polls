@@ -14,10 +14,16 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
 from django.contrib import admin
 from django.urls import path, include
+from django.conf.urls import handler500, handler404, handler403
+from surveys.views import Handler500view, handler404notfound
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('surveys.urls'),),
 ]
+
+handler400 = handler404notfound
+handler500 = Handler500view.as_error_view()

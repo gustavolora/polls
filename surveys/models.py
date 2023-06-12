@@ -32,26 +32,10 @@ class Respondent(models.Model):
     recomendations = models.TextField(null=True)
 
 
-class SurveyRealized(models.Model):
-    user = models.ForeignKey(User,null=False, on_delete=models.CASCADE)
-    survey = models.ForeignKey(Surveys,null=False, on_delete=models.CASCADE)
-    respondent = models.ForeignKey(Respondent,null=False, on_delete=models.CASCADE)
-    commune = models.ForeignKey(Commune, null=False, on_delete=models.CASCADE)
-    district = models.ForeignKey(District, null=False,on_delete=models.CASCADE )
-    duration = models.IntegerField()
-    date = models.DateTimeField(auto_now=True)
-
-    def __str__(self) -> str:
-        return f"User: {self.user.username}, Survey: {self.survey.name}, Duration: {self.duration}"
 
 
-class Location(models.Model):
-    surveyrealized = models.ForeignKey(SurveyRealized, null=False, on_delete=models.CASCADE)
-    latitud = models.DecimalField(max_digits=20, decimal_places=13, null=True,default=None)
-    longitud = models.DecimalField(max_digits=20, decimal_places=13,null=True, default=None)
 
-    def __str__(self) -> str:
-        return f"user: {self.user.username}"
+
 
 
 class Questions(models.Model):
@@ -68,7 +52,27 @@ class AnswerOptions(models.Model):
 
     def __str__(self) -> str:
         return f"opcion: {self.options}, pregunta: {self.question.question}"
+    
+    
 
+class SurveyRealized(models.Model):
+    user = models.ForeignKey(User,null=False, on_delete=models.CASCADE)
+    survey = models.ForeignKey(Surveys,null=False, on_delete=models.CASCADE)
+    respondent = models.ForeignKey(Respondent,null=False, on_delete=models.CASCADE)
+    commune = models.ForeignKey(Commune, null=False, on_delete=models.CASCADE)
+    district = models.ForeignKey(District, null=False,on_delete=models.CASCADE )
+    duration = models.IntegerField()
+    latitude = models.DecimalField(max_digits=20, decimal_places=13, null=True)
+    longitude = models.DecimalField(max_digits=20, decimal_places=13,null=True)
+    date = models.DateTimeField(auto_now=True)
+
+    def __str__(self) -> str:
+        return f"User: {self.user.username}, Survey: {self.survey.name}, Duration: {self.duration}"
+
+
+
+    def __str__(self) -> str:
+        return f"user: {self.user.username}"
 
 class Answer(models.Model):
     surveyrealized = models.ForeignKey(SurveyRealized,null=False, on_delete=models.CASCADE)
@@ -77,3 +81,4 @@ class Answer(models.Model):
 
     def __str__(self) -> str:
         return f"Opcion: {self.answeroptions} Pregunta: {self.questions}"
+

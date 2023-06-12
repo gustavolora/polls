@@ -3,8 +3,13 @@
 {%block content %}
 
 <div class="container col-lg-8 col-md-10 col-sm-12 mt-4">
-    <div class="card text-center mt-5 mb-5" style="max-width: 500px; margin: 0 auto;">
-        <h5 class="h5 m-3 text-start">Resultados</h5>
+    <div class="card text-center mt-5 mb-5 d-flex justify-content-between" style="max-width: 500px; margin: 0 auto;">
+        <div class="p-2 d-flex justify-content-between" style="width: 100%;">
+            <h5 class="h5 m-3 text-start d-inline">Resultados: {{total_count}}</h5>
+            <a href="{% url 'report' %}">
+                <img class="justify-end text-end" style="width:30px; height:30px" src="{% static 'surveys/media/img/excel32.png'%}" alt="">
+            </a>
+        </div>
     </div>
 
     {% for item in data %}
