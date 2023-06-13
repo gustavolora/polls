@@ -273,7 +273,8 @@ def excelreport(request):
         'Encuestador',
         'Latitud',
         'Longitud',
-        'Recomendaciones'
+        'Recomendaciones',
+        'Duracion de la encuesta (Minutos)'
     ]
     
     
@@ -302,8 +303,9 @@ def excelreport(request):
         sheet.cell(row=row, column=7).value = survey_realized.user.username
         sheet.cell(row=row, column=8).value = survey_realized.latitude
         sheet.cell(row=row, column=9).value = survey_realized.longitude
-        sheet.cell(
-            row=row, column=10).value = survey_realized.respondent.recomendations
+        sheet.cell(row=row, column=10).value = survey_realized.respondent.recomendations
+        duration_minutes = survey_realized.duration / 60
+        sheet.cell(row=row, column=11).value = duration_minutes
 
         respondent_answers = Answer.objects.filter(
             surveyrealized__respondent=survey_realized.respondent)
