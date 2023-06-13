@@ -310,7 +310,7 @@ def excelreport(request):
         respondent_answers = Answer.objects.filter(
             surveyrealized__respondent=survey_realized.respondent)
         for respondent_answer in respondent_answers:
-            for column, question in enumerate(questions, start=11):
+            for column, question in enumerate(questions, start=12):
                 if respondent_answer.questions == question:
                     sheet.cell(
                         row=row, column=column).value = respondent_answer.answeroptions.options
