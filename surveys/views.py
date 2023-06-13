@@ -246,7 +246,7 @@ def signin(request):
 @staff_member_required
 @login_required
 def listpollsters(request):
-    users_data = User.objects.exclude(username='admin').annotate(survey_count=Count('surveyrealized'), average_duration=Avg(
+    users_data = User.objects.exclude(is_superuser=True).annotate(survey_count=Count('surveyrealized'), average_duration=Avg(
         'surveyrealized__duration')/60).order_by('-survey_count').values('username', 'survey_count', 'average_duration')
     context = {
         'users_data': users_data

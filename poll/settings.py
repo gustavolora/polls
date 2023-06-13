@@ -88,10 +88,10 @@ WSGI_APPLICATION = 'poll.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'polls',
+        'NAME': 'polls_backup',
         'HOST': 'localhost',
         'PORT': '',
-        'USER': 'polluser',
+        'USER': 'polluserbackup',
         'PASSWORD': '2pKz2WkPpyrUM20xC',
 
     }
