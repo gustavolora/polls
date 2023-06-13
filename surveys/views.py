@@ -13,6 +13,7 @@ from django.views.decorators.cache import never_cache
 from django.views.decorators.csrf import csrf_protect, csrf_exempt
 from django.db.models import Count, Avg
 from openpyxl import Workbook
+from openpyxl.styles import Font
 from django.utils import timezone
 
 @never_cache
@@ -285,12 +286,14 @@ def excelreport(request):
     row = 2
     questions = Questions.objects.filter(
         survey__surveyrealized__isnull=False).distinct()
+    font = Font(bold=True)
     for question in questions:
         headers.append(question.question)
 
     for column, header in enumerate(headers, start=1):
-        sheet.cell(row=1, column=column).value = header
-
+        cell = sheet.cell(row=1, column=column)
+        cell.value = header
+        cell.font = font
 
     for survey_realized in survey_realizeds:
         sheet.cell(row=row, column=1).value = survey_realized.date.strftime(
