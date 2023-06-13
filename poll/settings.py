@@ -29,6 +29,14 @@ DEBUG = False
 
 ALLOWED_HOSTS = ['danielavergarasincelejo.com','*']
 
+CORS_ALLOW_CREDENTIALS = True
+
+CORS_ORIGIN_ALLOW_ALL = True
+
+CORS_ALLOW_CREDENTIALS = True
+
+CSRF_COOKIE_HTTPONLY = True
+CSRF_TRUSTED_ORIGINS = ['http://http://159.203.180.189/']
 
 # Application definition
 
@@ -81,10 +89,10 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'polls',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
-        'USER': 'polls',
-        'PASSWORD': '990906',
+        'HOST': 'localhost',
+        'PORT': '',
+        'USER': 'polluser',
+        'PASSWORD': '2pKz2WkPpyrUM20xC',
 
     }
 }
@@ -138,9 +146,7 @@ STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-STATICFILES_DIRS = [
-    BASE_DIR / 'surveys/static'
-]
+
 
 # Media files (MP4, MKV, AVI)
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
