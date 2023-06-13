@@ -16,14 +16,14 @@
             <tr>
                 <td>
                     <div class="d-flex gap-3 align-items-center">
-                        <div class="ms-3 p-2">
+                        <div class="ms-2 p-2">
                             <p class="fw-ligth mb-1">{{user.username}}</p>
                         </div>
                     </div>
                 </td>
                 <td>
                     <div class="d-flex align-items-center">
-                        <div class="ms-3 p-2">
+                        <div class="ms-2 p-2">
                             {% if user.average_duration%}
                             <p class="fw-ligth mb-1">{{user.average_duration|floatformat:2}} Min</p>
                             {%else%}
@@ -35,7 +35,7 @@
                 
                 <td>
                     <div class="d-flex text-end align-items-center">
-                        <div class="ms-3 p-2">
+                        <div class="ms-2 p-2">
                             {% if user.survey_count %}
                             <p class="fw-ligth mb-1">{{user.survey_count}}</p>
                             {%else%}
