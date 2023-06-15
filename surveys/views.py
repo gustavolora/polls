@@ -31,7 +31,6 @@ def isAdmin(user):
 def handler404notfound(request, exc):
     return render(request, '404.html' ,{'exception':exc }, status=404)
 
-
 class Handler500view(TemplateView):
     template_name = "500.html"
 
@@ -44,6 +43,13 @@ class Handler500view(TemplateView):
             r.render()
             return r
         return view
+
+
+@user_passes_test(isAdmin, login_url='index')
+@login_required
+def maps(request):
+    return render(request, 'maps.html')
+
 
 @never_cache
 @login_required
@@ -221,6 +227,7 @@ def saveAnswers(request):
 
 @never_cache
 def signin(request):
+    logout(request)
     if request.method == 'GET':
         logout(request)
         print('entro aqui')
@@ -243,7 +250,7 @@ def signin(request):
                 return redirect('index')
 
 
-@never_cache
+
 @staff_member_required
 @login_required
 def listpollsters(request):
@@ -255,7 +262,7 @@ def listpollsters(request):
     return render(request, 'pollster_list.html', context)
 
 
-@never_cache
+
 @staff_member_required
 @login_required
 def excelreport(request):
@@ -327,8 +334,6 @@ def excelreport(request):
 
 
 @csrf_exempt
-@never_cache
 @login_required
 def signout(request):
-    logout(request)
     return redirect('login')

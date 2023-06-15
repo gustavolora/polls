@@ -1,2 +1,6 @@
 venv/
 *.pyc
+*\settings.py
+**/settings.py
+./poll/settings.py
+**\poll\settings.py
