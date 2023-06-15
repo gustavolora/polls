@@ -8,6 +8,7 @@ urlpatterns = [
     # admin views
     path('adminpage/exportdata/',views.excelreport, name='report'),
     path('adminpage/',views.adminPage,name='adminpage'),
+    path('adminpage/maps',views.maps, name='maps'),
     path('adminpage/surveys', views.adminsurveys, name='adminsurveys'),
     path('adminpage/surveys/detail/<int:survey_id>/', views.adminsurveydetail, name='adminsurveydetail'),
     # user views

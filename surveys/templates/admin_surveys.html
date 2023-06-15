@@ -1,6 +1,7 @@
 {% extends 'index.html'%}
 
 {%block content %}
+{% if surveys_data %}
 <div class="container mt-5">
     <div class="row pb-5">
       {%for survey in surveys_data%}
@@ -17,4 +18,10 @@
       {%endfor%}
     </div>
 </div>
+{% else %}
+<div class="text-center">
+  <h1 class="display-5 mt-5 fw-bold text-danger">Opps!</h1>
+  <p class="fs-3">Parece que no hay encuestas para analizar</p>
+</div>
+{% endif %}
 {%endblock%}
