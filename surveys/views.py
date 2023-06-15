@@ -297,7 +297,7 @@ def excelreport(request):
 
     for survey_realized in survey_realizeds:
         sheet.cell(row=row, column=1).value = survey_realized.date.strftime(
-            '%Y-%m-%d')
+            '%Y-%m-%d %H:%M')
         sheet.cell(row=row, column=2).value = survey_realized.commune.name
         sheet.cell(row=row, column=3).value = survey_realized.district.name
         sheet.cell(row=row, column=4).value = survey_realized.respondent.name
