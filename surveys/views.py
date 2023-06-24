@@ -90,8 +90,8 @@ def adminsurveydetail(request, survey_id):
     for item in data:
         for option in item['response_counts_by_option']:
             if item['total_count'] > 0:
-                option['percentage'] = option['count'] / \
-                    item['total_count'] * 100
+                option['percentage'] = "{:.2f}".format( option['count'] / \
+                    item['total_count'] * 100)
             else:
                 option['percentage'] = 0
 
